@@ -1,4 +1,4 @@
-/* This is part of the netCDF package.
+/* This prototype was modified from an example file that was part of the netCDF package.
    Copyright 2006 University Corporation for Atmospheric Research/Unidata.
    See COPYRIGHT file for conditions of use.
 
@@ -25,22 +25,16 @@ import java.io.IOException;
 public class BCON_3D_rd {
 
   public static void main(String args[]) {
-    final int TSTEP = 1;
-    final int NLAY = 1;
-    final int PERIM = 204;
-    final int NCOL = 50;
-    final int NROW = 50;
-    final float SAMPLE_NO2 = 0.0002f;
 
 
     // Open the file.
-    String filename = "BCON_profile_training_profile_NO2_1layer.2.nc";
+    String filename = "BCON_sample.nc";
     NetcdfFile dataFile = null;
     try {
 
       dataFile = NetcdfFile.open(filename, null);
 
-      // Get the latitude and longitude Variables.
+      // Get the number of columns and number of rows from the Global Attributes.
       Attribute nCols = dataFile.findGlobalAttribute("NCOLS");
       if (nCols == null) {
         System.out.println("Cant find Attribute NCOLS");
@@ -79,23 +73,13 @@ public class BCON_3D_rd {
         origin[0] = rec;  // read this index
 
         // read 2D array for that index
-        ArrayFloat.D1 NO2Perim;
+        ArrayFloat.D2 NO2Perim;
 
-        NO2Perim = (ArrayFloat.D1) (NO2Var.read(origin, shape).reduce());
+        NO2Perim = (ArrayFloat.D2) (NO2Var.read(origin, shape).reduce());
 
         System.out.println("Value of NO2Perim"); 
           System.out.println(NO2Perim);
 
-/*
-        for (int lvl = 0; lvl < NLVL; lvl++)
-          for (int lat = 0; lat < NLAT; lat++)
-            for (int lon = 0; lon < NLON; lon++) {
-              if ((presArray.get(lvl, lat, lon) != SAMPLE_PRESSURE + count) ||
-                      (tempArray.get(lvl, lat, lon) != SAMPLE_TEMP + count))
-                System.err.println("ERROR incorrect value in variable pressure or temperature");
-              count++;
-            }
-*/
       }
 
       // The file is closed no matter what by putting inside a try/catch block.

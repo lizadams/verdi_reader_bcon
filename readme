@@ -1,0 +1,35 @@
+other files to look at include:
+GridDataset.java
+NetcdfDataset.java
+NetcdfDatasetFactory.java
+Models3Loader.java
+
+Models3Loader.java
+public class Models3Loader implements DataLoader {
+
+Will need a new Models3Loader.java for BCON files: Models3Loader_bcon.java
+
+NetcdfDatasetFactory.java
+
+private GridDataset openNetcdfGridDataset(URL url) throws URISyntaxException, IOException {
+		String urlString = url.toExternalForm();
+		
+		if (url.getProtocol().equals("file")) {
+			urlString = new URI(urlString).getPath();
+		}
+		
+		validNetcdfFile( urlString);
+
+		// return GridDataset.open(urlString); // NetCDF ENHANCE
+		
+		GridDataset gridDataset = GridDataset.open(urlString);
+		
+//		if ( 1 == 2 )
+//			printGridDatasetInfo( gridDataset);
+
+		return gridDataset;
+
+May need a different way to open the file other than openNetcdfGridDataset
+
+Need to review this information
+http://www.unidata.ucar.edu/software/thredds/current/netcdf-java/tutorial/GridDatatype.html
