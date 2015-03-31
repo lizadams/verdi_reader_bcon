@@ -1,0 +1,4 @@
+To run toolsUI 
+
+java -Xmx512m -jar toolsUI-4.3.jar
+

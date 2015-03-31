@@ -19,6 +19,7 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.ma2.ArrayFloat;
 import ucar.ma2.InvalidRangeException;
+import ucar.ma2.Section;
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class BCON_3D_rd {
 
 
     // Open the file.
-    String filename = "BCON_sample.nc";
+    String filename = "BCON_perim.nc";
     NetcdfFile dataFile = null;
     try {
 
@@ -72,15 +73,25 @@ public class BCON_3D_rd {
       for (int rec = 0; rec < recLen; rec++) {
         origin[0] = rec;  // read this index
 
-        // read 2D array for that index
-        ArrayFloat.D2 NO2Perim;
 
-        NO2Perim = (ArrayFloat.D2) (NO2Var.read(origin, shape).reduce());
+        // read 2D array for that index
+        ArrayFloat.D1 NO2Perim;
+        NO2Perim = (ArrayFloat.D1) (NO2Var.read(origin, shape).reduce());
 
         System.out.println("Value of NO2Perim"); 
           System.out.println(NO2Perim);
 
       }
+       // read 2D array for that index
+        System.out.println("Read a section of NO2Perim");
+      for (int rec = 0; rec < recLen; rec++) {
+        origin[0] = rec;  // read this index
+        ArrayFloat.D1 BCON_East;
+ Section section=new Section(new int[]{1}, new int[]{51}, shape);
+          BCON_East = (ArrayFloat.D1) (NO2Var.read(section).reduce());
+        System.out.println("Value of BCON_East");  
+          System.out.println(BCON_East);
+     }
 
       // The file is closed no matter what by putting inside a try/catch block.
     } catch (java.io.IOException e) {
